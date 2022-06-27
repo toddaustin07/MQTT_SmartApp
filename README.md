@@ -182,8 +182,24 @@ These tips are tailored for a Linux-based Raspberry Pi server, but can apply to 
 ```
 
 #### Setup auto updates with unattended-upgrades package
-  - add RPI lines to /etc/apt/apt.conf.d/50unattended-upgrades
+  - add lines to /etc/apt/apt.conf.d/50unattended-upgrades
+```
+Unattended-Upgrade:Origins-Pattern {  
+  "origin=Debian,codename=${distro_codename},label=Debian";
+  "origin=Debian,codename=${distro_codename},label=Debian-Security";
+  "origin=Raspian,codename=${distro_codename},label=Raspian";
+  "origin=Raspberry Pi Foundation,codename=${distro_codename},label=Raspberry Pi Foundation";
+};
+```
   - create file /etc/apt/apt.conf.d/02periodic
+```
+APT::Periodic::Enable "1";
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Download-Upgradeable-Packages "1";
+APT::Periodic::Unattended-Upgrade "1";
+APT::Periodic::AutocleanInterval "1";
+APT::Periodic::Verbose "2";
+```
   - check logs in:  /var/log/unattended-upgrades
 
 #### Disable unneeded services/port usage with systemctl
