@@ -93,7 +93,7 @@ The CONFIRMATION_URL should be copied and pasted into another browser tab and pr
 - You can now click the **DEPLOY TO TEST** button.
 - Optionally start *Live Logging*
 
-### Download and configure SmartApp
+### Download and configure the nodeJS SmartApp
 - Clone this repository onto your server or otherwise download these files to your project directory:
 ```
 smartapps.js
