@@ -115,7 +115,7 @@ node smartapp.js
 - Go to the Automations page in the mobile app
 - Tap on the '+' in the upper right and select *Add routine*
 - Tap the *Discover* tab
-- Scroll down the list of SmartApps until you see one with the name you choose in the Developer Workspace
+- Scroll down the list of SmartApps until you see one with the name you chose in the Developer Workspace
   - You may see duplicate entries (this is a bug in SmartThings).  Usually the one that actually works is the one *missing* the description.
 - Tap your SmartApp
 - You now should see activity on your ngrok Inspect page, as well as console log messages from your SmartApp on your server
