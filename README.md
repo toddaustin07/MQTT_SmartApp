@@ -136,6 +136,16 @@ Here you will choose devices based on their capabilities.  (For each device chos
 - Once you have finished, return to the main page and tap *Done*, and then tap *Allow* on the next page
 - Your SmartApp configuration is now complete.
 - Monitor the console log messages on your server to be sure the broker connection was successful and no errors occurred.
+
+## Testing/Verification
+Start up an MQTT subscription utility such as mosquitto_sub and subscribe to the 'smartthings/#' topic:
+```
+mosquitto_sub -v -h localhost -t "smartthings/#"
+```
+You can monitor all messages that are being sent by the SmartApp.  
+
+Note that the topic "smartthings/status" is used to send some SmartApp status messages indicating when it has started or configuration has been updated.
+
 ## MQTT Messages
 All MQTT messages sent by the SmartApp will use the following topic format:
 `smartthings/<device_id>/<capability>/<attribute>`
