@@ -36,7 +36,7 @@ We will assume the use of ngrok and Mosquitto on a Raspberry PI 4 running Raspbe
 #### Install nodeJS
 - Download latest binary from https://nodejs.org/en/download/
 - Extract the downloaded file using tar -xf \<filename\> (may need to apt-install xz-utils)
-- Change to new subdirectory and run: sudo cp -R * /usr/local/
+- Change to the new extraction subdirectory and run: sudo cp -R * /usr/local/
 - Test by returning to home directory and run: node \-\-version
 #### Install SmartApp SDK for nodeJS
 - Create a project directory and change to it
