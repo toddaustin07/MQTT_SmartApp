@@ -97,7 +97,7 @@ The CONFIRMATION_URL should be copied and pasted into another browser tab and pr
 ```
 smartapps.js
 mqttout.js
-mqttout_en.json   (goes in locals subdirectory)
+mqttout_en.json   (goes in locales subdirectory)
 config.json
 ```
 - Edit config.json
