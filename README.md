@@ -241,6 +241,7 @@ sudo ufw status verbose
 - More ufw config info:  https://www.youtube.com/watch?v=9dXdmJCHAGQ
 
 #### Create key pairs for SSH access
+This is more secure than using passwords, and more convenient once set up.
 1. Setup Pi directory
 ```
 mkdir ~/.ssh && chmod 700 ~/.ssh
@@ -268,6 +269,7 @@ scp ~/.ssh/id_rsa.pub <username>@192.168.1.nnn:~/.ssh/authorized_keys
 ```
 
 #### Restrict SSH
+Clamp down on who can sign in through SSH.
 - Edit  /etc/ssh/sshd_config
 - Change port number to something *other* than the standard SSH port (22) 
 - Change AddressFamily to inet (ipv4 only)
@@ -299,6 +301,7 @@ This package will prevent brute force authentication attempts
 ```
 
 #### Regularly Monitor Logs
+Keep an eye on all the logs below to spot any malicious access attemps.
 - /var/log/ufw.log (firewall)
 - /var/log/fail2ban.log (limits brute force authentication attempts)
 - /var/log/auth.log  (all authentication attempts)
