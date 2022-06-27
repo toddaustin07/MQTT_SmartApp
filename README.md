@@ -182,7 +182,8 @@ These tips are tailored for a Linux-based Raspberry Pi server, but can apply to 
 ```
 
 #### Setup auto updates with unattended-upgrades package
-  - add lines to /etc/apt/apt.conf.d/50unattended-upgrades
+- Install unattended-upgrades package if needed
+- Add lines to /etc/apt/apt.conf.d/50unattended-upgrades
 ```
 Unattended-Upgrade:Origins-Pattern {  
   "origin=Debian,codename=${distro_codename},label=Debian";
@@ -200,7 +201,7 @@ APT::Periodic::Unattended-Upgrade "1";
 APT::Periodic::AutocleanInterval "1";
 APT::Periodic::Verbose "2";
 ```
-  - check logs in:  /var/log/unattended-upgrades
+  - Periodically monitor logs in:  /var/log/unattended-upgrades
 
 #### Disable unneeded services/port usage with systemctl
 ```
@@ -213,20 +214,24 @@ APT::Periodic::Verbose "2";
 ```
 sudo ss -tupln -OR- netstat -an | grep 'LISTENING'
 ```
+- Disable any you don't want (see above)
 - Install ufw
 ```
 sudo apt install ufw
 ```
 - Allow only selected services:
 ```
-sudo ufw allow <port></[tcp|udp]> comment "whatever you want"
+sudo ufw allow <port></[tcp|udp]> comment "<whatever you want>"
 sudo ufw status
 ```
-#### Block pings
+##### Block pings
 - Edit /etc/ufw/before.rules
-- Add line in ok icmp codes for INPUT section:
+- Add line in 'ok icmp codes for INPUT' section:
 ```
 -A ufw-before-input -p icmp --icmp-type echo-request -j DROP
+```
+- Re-enable the firewall
+```
 sudo ufw enable
 sudo ufw status verbose
 ```
