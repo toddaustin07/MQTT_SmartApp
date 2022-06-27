@@ -12,7 +12,7 @@ This SmartApp is still being refined and tested as of June 2022.  Currently, the
 
 The intention is to expand this list to nearly all relevant SmartThings device types, but the speed at which this list is expanded will depend entirely on community interest.
 
-Testing has been only done so far with ngrok and Mosquitto-based configurations on a Raspberry Pi.
+Testing has been only done so far with ngrok and Mosquitto-based configurations on a Raspberry Pi running Raspberry Pi OS (Linux)
 
 ## Requirements
 ### Network
