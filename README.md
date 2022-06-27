@@ -248,25 +248,25 @@ mkdir ~/.ssh && chmod 700 ~/.ssh
 ```
 
 2. Create keys:
-  - On client machine (eg Windows):
-```
-ssh-keygen -b 4096
-```
+  - On *client* machine (e.g. Windows, Mac, or Linux):
+    ```
+    ssh-keygen -b 4096
+    ```
   - Keys are in ~/.ssh
 
-3. Copy public key to Pi
+3. Copy public key to the server (Raspberry Pi)
   - From a Windows powershell:
-```
-scp $env:USERPROFILE/.ssh/id_rsa.pub <username>@192.168.1.nnn:~/.ssh/authorized_keys
-```
+    ```
+    scp $env:USERPROFILE/.ssh/id_rsa.pub <username>@192.168.1.nnn:~/.ssh/authorized_keys
+    ```
   - From a Linux client
-```
-ssh-copy-id <username>@192.168.1.nnn
-```
+    ```
+    ssh-copy-id <username>@192.168.1.nnn
+    ```
   - From a Mac client:
-```
-scp ~/.ssh/id_rsa.pub <username>@192.168.1.nnn:~/.ssh/authorized_keys
-```
+    ```
+    scp ~/.ssh/id_rsa.pub <username>@192.168.1.nnn:~/.ssh/authorized_keys
+    ```
 
 #### Restrict SSH
 Clamp down on who can sign in through SSH.
