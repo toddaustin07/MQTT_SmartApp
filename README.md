@@ -100,7 +100,7 @@ The CONFIRMATION_URL should be copied and pasted into another browser tab and pr
 - Optionally start *Live Logging*
 
 ### Download and configure the nodeJS SmartApp
-- Clone this repository onto your server or otherwise download these files to your project directory:
+- Clone this repository onto your server and copy these files to your project directory:
 ```
 smartapps.js
 mqttout.js
