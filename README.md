@@ -312,7 +312,7 @@ Keep an eye on all the logs below to spot any malicious access attemps.
 ### Running additional SmartApps on your local server
 The free tier of ngrok provides only one URL to use.  Therefore, all SmartApps you wish to run on your local server must operate over this one common network tunnel.  The smartapps.js module provides a framework to enable multiple SmartApps.  Its config.json file provides a way to configure multiple applications by identifying their SmartThings application ID and module name.
 
-If you want to run other SmartApps on your local server in addition to the MQTT Sender app, edit the config.json file to add the appid (SmartThings *APPID* assigned by Developer Workspace project) and module name (.js file) in the applist element.  Copy your other SmartApp .js files to the same project directory, and copy any language files to the *locales* subdirectory.
+If you want to run other SmartApps on your local server in addition to the MQTT Sender app, edit the config.json file to add the appid (SmartThings *APPID* assigned by Developer Workspace project) and module name (.js file) in the applist array element.  Copy your other SmartApp .js files to the same project directory, and copy any language files to the *locales* subdirectory.
 
 Your module should export your instantiated SmartApp and an init() function that will be called after the module is loaded to perform any additional initialization required for your SmartApp.  Reference the mqttout.js file for an example.
 
