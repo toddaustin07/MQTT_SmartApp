@@ -8,7 +8,7 @@ This will work with all SmartThings devices - whether new Edge-based devices, le
 This SmartApp is intended to be run on a local computer with internet access, but could be modified fairly easily to run on AWS or other cloud server environment.
 
 ## Caveats
-This SmartApp is still being refined and tested as of June 2022.  Currently, the following device types are supported: `switches, buttons, contact, motion, presence`
+This SmartApp is still being refined and tested as of June 2022.  Currently, the following device types are supported: `switch, button, contact, motion, presence`
 
 The intention is to expand this list to nearly all relevant SmartThings device types, but the speed at which this list is expanded will depend entirely on community interest.
 
@@ -133,10 +133,23 @@ Here you will choose devices based on their capabilities.  For each device chose
 - Your SmartApp configuration is now complete.
 ### Testing
 When the nodeJS application initially run, it will log a message saying that MQTT configuration does not exist.  That is normal:  you'll need to configure your MQTT options in the SmartApp mobile app interface.  Once you have completed those steps (outlined above), you will see additional console log messages from the nodeJS application indicating if it successfully connected to the MQTT Broker.  And then additional messages when SmartThing device state changes are received and forwarded to MQTT.
-## MQTT Topic format
+## MQTT Messages
 All MQTT messages sent by the SmartApp will use the following topic format:
 `smartthings/<device_id>/<capability>/<attribute>`
 Note that the top-level of 'smartthings' can be changed in the SmartApp MQTT configuration.
+### Examples
+| Topic                                      | Message       |
+| -----------------------------------------------| ------------|
+| smartthings/8b6d9e55-be64-4e61-a637-54524be04685/motionSensor/motion | active   |
+| smartthings/8b6d9e55-be64-4e61-a637-54524be04685/motionSensor/motion | inactive |
+| smartthings/2af6229b-ea39-2f03-f07b-920e103c8429/switch/switch       | on       |
+| smartthings/2af6229b-ea39-2f03-f07b-920e103c8429/switch/switch       | off      |
+
+### SmartThings Capabilities Reference
+For a list of all capabilities and their attributes supported by SmartThings, see these links:
+
+[Production Capabilities](https://developer-preview.smartthings.com/docs/devices/capabilities/capabilities-reference)
+[Proposed Capabilities](https://developer-preview.smartthings.com/docs/devices/capabilities/proposed)
 
 ## Advanced
 ### Running additional SmartApps on your local server
