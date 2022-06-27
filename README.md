@@ -3,11 +3,18 @@ This SmartApp provides a mechanism to externalize SmartThings device states usin
 
 With this SmartApp, users can select SmartThings devices and then for the chosen capability, any state (attribute) changes will be published as an MQTT message.  The topic used for the message allows message recipients to determine the source device, capability, and attribute.  The message itself simply contains the updated attribute value.
 
+This will work with all SmartThings devices - whether new Edge-based devices, legacy Groovy/DTH-based devices, or cloud-based devices.
+
 This SmartApp is intended to be run on a local computer with internet access, but could be modified fairly easily to run on AWS or other cloud server environment.
+
+## Caveats
+This SmartApp is still being refined and tested as of June 2022.  Currently, the following device types are supported, but the intention is to expand this list to nearly all relevant SmartThings device types:  switches, buttons, contact, motion, presence.  The speed at which this list is expanded will depend entirely on community interest.
+
+Testing has been only done so far with ngrok and Mosquitto-based configurations on a Raspberry Pi.
 
 ## Requirements
 ### Network
-- Fixed IP address accessable *from* the internet
+- Fixed IP address, accessable *from* the internet
   - To avoid having to setup and maintain a full-blown internet server, a utility like [ngrok](https://ngrok.com/) or similar applications can be used to create a secure tunnel. This is very simple thing to do, and is safe and secure.
 ### Server
 - nodeJS (this application was developed and tested on version 16.3.1)
