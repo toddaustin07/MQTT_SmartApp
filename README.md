@@ -22,6 +22,7 @@ Testing has been only done so far with ngrok and Mosquitto-based configurations 
 - nodeJS (this application was developed and tested on version 16.3.1)
 - [SmartThings SmartApp SDK for nodeJS](https://github.com/SmartThingsCommunity/smartapp-sdk-nodejs)
 - [ngrok](https://ngrok.com/) (free tier is sufficient) or alternative
+- If intending to run on a Raspberry Pi, I would strongly recommend the full GUI-based OS so you can use the ngrok browser-based console
 ### MQTT Broker
 - Presumed to be running on your local network
 - Commonly used: [Mosquitto](https://mosquitto.org/download/)
