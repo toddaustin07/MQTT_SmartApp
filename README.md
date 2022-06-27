@@ -1,5 +1,5 @@
 # MQTT SmartApp
-This SmartApp provides a mechanism to externalize SmartThings device states using MQTT.  No additional MQTT bridges are needed besides an MQTT Broker.
+This SmartApp provides a mechanism to externalize SmartThings device states using MQTT.  It runs on your local network so there is no need for any additional bridges.
 
 With this SmartApp, users can select SmartThings devices and then for the chosen capability, any state (attribute) changes will be published as an MQTT message.  The topic used for the message allows message recipients to determine the source device, capability, and attribute.  The message itself simply contains the updated attribute value.
 
@@ -10,11 +10,14 @@ This SmartApp is intended to be run on a local computer with internet access, bu
 ## Caveats
 This SmartApp is still being refined and tested as of June 2022.  Currently, the following device types are supported: `switch, button, contact, motion, presence`
 
-The intention is to expand this list to nearly all relevant SmartThings device types, but the speed at which this list is expanded will depend entirely on community interest.
+The intention is to expand this list to nearly all relevant SmartThings device types, but the speed at which this support is expanded will depend entirely on community interest and priorities.
 
-Testing has been only done so far with ngrok and Mosquitto-based configurations on a Raspberry Pi running Raspberry Pi OS (Linux)
+Testing has only been done so far with ngrok and Mosquitto-based configurations on a Raspberry Pi running Raspberry Pi OS (Linux), although there is nothing inherent in the code that would prevent it from running on other operating environments as long as they support nodeJS have can provide the needed internet access.
+
+Note: This document assumes the reader has a working knowledge of Linux, installing packages, editing files, etc.
 
 ## Requirements
+
 ### Network
 - Fixed internet IP address
   - To avoid having to pay your ISP for a fixed IP (not even an option from some ISPs), or set up and maintain a full-blown internet server (yikes!), a utility like [ngrok](https://ngrok.com/) or similar can be used to create a secure tunnel and assigns you a 'fixed' URL to use. This is very simple thing to do, and is safe and secure.
@@ -61,11 +64,13 @@ sudo systemctl enable mosquitto.service
 ngrok https 8083
 ```
 - Open a browser window for URL:  http://localhost:4040/status
-- Click on **Status** link at the top black menu bar
+  - This is ngrok's browser-based console
+- Click on the **Status** link at the top black menu bar
 - Take note of your assigned command_line URL address (in the format: https://xxxx-xx-x-xxx-xxx.ngrok.io)
-- Click on **Inspect** link at the top black menu bar: this page will show details of all received POST messages from SmartThings
+- Click on the **Inspect** link at the top black menu bar: this page will show details of all received POST messages from SmartThings
+
 ### Create Developer Workplace project
-- Sign in to Developer Workspace
+- Sign in to Samsung SmartThings [Developer Workspace](https://smartthings.developer.samsung.com/workspace)
 - Create New Project and choose 'Automation for the SmartThings App'
 - Name the project (e.g. MQTT Sender)
 - Choose Register App, then WebHook Endpoint
