@@ -16,8 +16,8 @@ Testing has been only done so far with ngrok and Mosquitto-based configurations 
 
 ## Requirements
 ### Network
-- Fixed IP address, accessable *from* the internet
-  - To avoid having to setup and maintain a full-blown internet server, a utility like [ngrok](https://ngrok.com/) or similar applications can be used to create a secure tunnel. This is very simple thing to do, and is safe and secure.
+- Fixed internet IP address
+  - To avoid having to pay your ISP for a fixed IP (not even an option from some ISPs), or set up and maintain a full-blown internet server (yikes!), a utility like [ngrok](https://ngrok.com/) or similar can be used to create a secure tunnel and assigns you a 'fixed' URL to use. This is very simple thing to do, and is safe and secure.
 ### Server
 - nodeJS (this application was developed and tested on version 16.3.1)
 - [SmartThings SmartApp SDK for nodeJS](https://github.com/SmartThingsCommunity/smartapp-sdk-nodejs)
@@ -34,6 +34,7 @@ Testing has been only done so far with ngrok and Mosquitto-based configurations 
 ## Setup
 We will assume the use of ngrok and Mosquitto on a Raspberry PI 4 running Raspberry PI OS (Debian Linux)
 ### Server
+Although ngrok is a perfectly safe and secure method to access your server from the internet, it is still a good idea to do everything you can to secure your computer from malicious attacks.  See under the 'Advanced' section below some tips for doing that.
 #### Install nodeJS
 - Download latest binary from https://nodejs.org/en/download/
 - Extract the downloaded file using tar -xf \<filename\> (may need to apt-install xz-utils)
@@ -167,6 +168,116 @@ For a list of all capabilities and their attributes supported by SmartThings, se
 [Proposed Capabilities](https://developer-preview.smartthings.com/docs/devices/capabilities/proposed)
 
 ## Advanced
+### Securing your server
+These tips are tailored for a Linux-based Raspberry Pi server, but can apply to any internet-accessable server with the appropriate modifications.
+#### Create new user account with admin and sudo priviledges
+```
+  sudo adduser <username>
+  sudo gpasswd -a <username> adm
+  sudo gpasswd -a <username> sudo
+```
+- lock 'pi' user account
+```
+  passwd -l pi
+```
+
+#### Setup auto updates with unattended-upgrades package
+  - add RPI lines to /etc/apt/apt.conf.d/50unattended-upgrades
+  - create file /etc/apt/apt.conf.d/02periodic
+  - check logs in:  /var/log/unattended-upgrades
+
+#### Disable unneeded services/port usage with systemctl
+```
+  systemctl --type=service --state=active
+  sudo systemctl disable --now <servicename>
+```
+
+#### Install a firewall (ufw)
+- First, be aware of all open ports on your server:
+```
+sudo ss -tupln -OR- netstat -an | grep 'LISTENING'
+```
+- Install ufw
+```
+sudo apt install ufw
+```
+- Allow only selected services:
+```
+sudo ufw allow <port></[tcp|udp]> comment "whatever you want"
+sudo ufw status
+```
+#### Block pings
+- Edit /etc/ufw/before.rules
+- Add line in ok icmp codes for INPUT section:
+```
+-A ufw-before-input -p icmp --icmp-type echo-request -j DROP
+sudo ufw enable
+sudo ufw status verbose
+```
+- More ufw config info:  https://www.youtube.com/watch?v=9dXdmJCHAGQ
+
+#### Create key pairs for SSH access
+1. Setup Pi directory
+```
+mkdir ~/.ssh && chmod 700 ~/.ssh
+```
+
+2. Create keys:
+  - On client machine (eg Windows):
+```
+ssh-keygen -b 4096
+```
+  - Keys are in ~/.ssh
+
+3. Copy public key to Pi
+  - From a Windows powershell:
+```
+scp $env:USERPROFILE/.ssh/id_rsa.pub <username>@192.168.1.nnn:~/.ssh/authorized_keys
+```
+  - From a Linux client
+```
+ssh-copy-id <username>@192.168.1.nnn
+```
+  - From a Mac client:
+```
+scp ~/.ssh/id_rsa.pub <username>@192.168.1.nnn:~/.ssh/authorized_keys
+```
+
+#### Restrict SSH
+- Edit  /etc/ssh/sshd_config
+- Change port number to something *other* than the standard SSH port (22) 
+- Change AddressFamily to inet (ipv4 only)
+- Disable root login
+- Allow only specific users
+```
+Port <nnnn>
+AddressFamily inet
+PermitRootLogin no
+AllowUsers <username>
+```
+- Optional:  disable all password authentication (key pair only): `PasswordAuthentication no`
+- Restart sshd
+```
+sudo systemctl restart sshd
+```
+
+#### Install fail2ban
+- Create jail.local in /etc/fail2ban:
+```
+    [DEFAULT]
+    bantime = 1h
+    banaction = ufw
+
+    [sshd]
+    enabled = true
+```
+
+#### Regularly Monitor Logs
+- /var/log/ufw.log (firewall)
+- /var/log/fail2ban.log (limits brute force authentication attempts)
+- /var/log/auth.log  (all authentication attempts)
+- /var/log/unattended-upgrades  (auto upgrades)
+
 ### Running additional SmartApps on your local server
 The free tier of ngrok provides only one URL to use.  Therefore, all SmartApps you wish to run on your local server must operate over this one common network tunnel.  The smartapps.js module provides a framework to enable multiple SmartApps.  The config.json file provides a mapping of SmartThings application ID to module name so that it can route SmartThings POST messages to the proper module.
 
