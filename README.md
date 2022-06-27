@@ -8,7 +8,9 @@ This will work with all SmartThings devices - whether new Edge-based devices, le
 This SmartApp is intended to be run on a local computer with internet access, but could be modified fairly easily to run on AWS or other cloud server environment.
 
 ## Caveats
-This SmartApp is still being refined and tested as of June 2022.  Currently, the following device types are supported, but the intention is to expand this list to nearly all relevant SmartThings device types:  switches, buttons, contact, motion, presence.  The speed at which this list is expanded will depend entirely on community interest.
+This SmartApp is still being refined and tested as of June 2022.  Currently, the following device types are supported: `switches, buttons, contact, motion, presence`
+
+The intention is to expand this list to nearly all relevant SmartThings device types, but the speed at which this list is expanded will depend entirely on community interest.
 
 Testing has been only done so far with ngrok and Mosquitto-based configurations on a Raspberry Pi.
 
