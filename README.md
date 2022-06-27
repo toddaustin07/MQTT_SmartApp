@@ -307,6 +307,8 @@ Keep an eye on all the logs below to spot any malicious access attemps.
 - /var/log/auth.log  (all authentication attempts)
 - /var/log/unattended-upgrades  (auto upgrades)
 
+---
+
 ### Running additional SmartApps on your local server
 The free tier of ngrok provides only one URL to use.  Therefore, all SmartApps you wish to run on your local server must operate over this one common network tunnel.  The smartapps.js module provides a framework to enable multiple SmartApps.  The config.json file provides a mapping of SmartThings application ID to module name so that it can route SmartThings POST messages to the proper module.
 
