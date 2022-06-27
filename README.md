@@ -171,6 +171,7 @@ For a list of all capabilities and their attributes supported by SmartThings, se
 ### Securing your server
 These tips are tailored for a Linux-based Raspberry Pi server, but can apply to any internet-accessable server with the appropriate modifications.
 #### Create new user account with admin and sudo priviledges
+Don't keep using the default 'pi' account.
 ```
   sudo adduser <username>
   sudo gpasswd -a <username> adm
@@ -182,7 +183,8 @@ These tips are tailored for a Linux-based Raspberry Pi server, but can apply to 
 ```
 
 #### Setup auto updates with unattended-upgrades package
-- Install unattended-upgrades package if needed
+It's important to keep all packages upgraded to the latest versions to pick up any security issue fixes
+- Install unattended-upgrades package
 - Add lines to /etc/apt/apt.conf.d/50unattended-upgrades
 ```
 Unattended-Upgrade:Origins-Pattern {  
@@ -204,6 +206,7 @@ APT::Periodic::Verbose "2";
   - Periodically monitor logs in:  /var/log/unattended-upgrades
 
 #### Disable unneeded services/port usage with systemctl
+The fewer running services & open ports you have, the fewer exposures you have.
 ```
   systemctl --type=service --state=active
   sudo systemctl disable --now <servicename>
@@ -214,12 +217,12 @@ APT::Periodic::Verbose "2";
 ```
 sudo ss -tupln -OR- netstat -an | grep 'LISTENING'
 ```
-- Disable any you don't want (see above)
+- Disable any ports/services you don't want (see above)
 - Install ufw
 ```
 sudo apt install ufw
 ```
-- Allow only selected services:
+- Explictly allow only selected services:
 ```
 sudo ufw allow <port></[tcp|udp]> comment "<whatever you want>"
 sudo ufw status
@@ -230,7 +233,7 @@ sudo ufw status
 ```
 -A ufw-before-input -p icmp --icmp-type echo-request -j DROP
 ```
-- Re-enable the firewall
+- Enable the firewall
 ```
 sudo ufw enable
 sudo ufw status verbose
@@ -283,6 +286,8 @@ sudo systemctl restart sshd
 ```
 
 #### Install fail2ban
+This package will prevent brute force authentication attempts
+- Install the package
 - Create jail.local in /etc/fail2ban:
 ```
     [DEFAULT]
