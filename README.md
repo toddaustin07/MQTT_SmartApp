@@ -115,7 +115,7 @@ node smartapp.js
   - You may see duplicate entries (this is a bug in SmartThings).  Usually the one that actually works is the one *missing* the description.
 - Tap your SmartApp
 - You now should see activity on your ngrok Inspect page, as well as console log messages from your SmartApp on your server
-- Once the SmartApp is 'installed' in your mobile app, it should should be listed whenever you go to the *Automations* page and expand the *SmartApps* twisty.
+- Once the SmartApp is 'installed' in your mobile app, it should be listed whenever you go to the *Automations* page and expand the *SmartApps* twisty.
 #### Configuration
 - When you open the MQTT smartapp in your mobile app, you will be taken to the main configuration page where you can rename the SmartApp and navigate to the Configuration options.
 - There are two main parts of configuration: (1) MQTT settings and (2) Device capability selection
