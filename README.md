@@ -107,6 +107,9 @@ config.json
 ```
 node smartapp.js
 ```
+- You should see a couple console log messages indicating that MQTT is not yet configured, and the SmartApp is listening on port 8083.
+- Once you have completed configuring the SmartApp in the mobile app (outlined below), you will see additional console log messages from the nodeJS application indicating if it successfully connected to the MQTT Broker.  And then additional messages will be logged whenever SmartThing device state changes are received and forwarded to MQTT.
+
 ### Install the new smartapp in your SmartThings mobile app
 - Go to the Automations page in the mobile app
 - Tap on the '+' in the upper right and select *Add routine*
@@ -118,21 +121,20 @@ node smartapp.js
 - Once the SmartApp is 'installed' in your mobile app, it should be listed whenever you go to the *Automations* page and expand the *SmartApps* twisty.
 #### Configuration
 - When you open the MQTT smartapp in your mobile app, you will be taken to the main configuration page where you can rename the SmartApp and navigate to the Configuration options.
-- There are two main parts of configuration: (1) MQTT settings and (2) Device capability selection
+- There are two main parts of configuration: (1) MQTT settings and (2) Device selection by capability
 ##### MQTT Settings
 - **Broker IP Address**:  Enter the IP address of the server where your MQTT broker is running (e.g. Mosquitto)
 - **Broker Port**:  This defaults to the standard MQTT port 1883, but can be modified if needed
 - **Broker Authentication USERID**:  If you have configured your broker to require sign-in, provide the userid here
 - **Broker Authentication Password**:  If you have configured your broker to require sign-in, provide the password here
-- **Top-level Topic**:  All message published will begin with this topic; defaults to 'smartthings'
+- **Top-level Topic**:  All MQTT messages published will begin with this top-level topic segment; defaults to 'smartthings'
 - **Retain Option**:  Turn on if you want the broker to retain the last message to send to the next subscriber
 - **Quality of Service (QoS)**: Tap to choose level 0, 1, or 2
-##### Device capability selection
-Here you will choose devices based on their capabilities.  For each device chosen, an MQTT message will be published whenever the state changes for the capability.
-- Once you have finished, tap *Done* and then tap *Allow* on the next page
+##### Device Selection
+Here you will choose devices based on their capabilities.  (For each device chosen, an MQTT message will be published whenever the state changes for the capability.)
+- Once you have finished, return to the main page and tap *Done*, and then tap *Allow* on the next page
 - Your SmartApp configuration is now complete.
-### Testing
-When the nodeJS application initially run, it will log a message saying that MQTT configuration does not exist.  That is normal:  you'll need to configure your MQTT options in the SmartApp mobile app interface.  Once you have completed those steps (outlined above), you will see additional console log messages from the nodeJS application indicating if it successfully connected to the MQTT Broker.  And then additional messages when SmartThing device state changes are received and forwarded to MQTT.
+- Monitor the console log messages on your server to be sure the broker connection was successful and no errors occurred.
 ## MQTT Messages
 All MQTT messages sent by the SmartApp will use the following topic format:
 `smartthings/<device_id>/<capability>/<attribute>`
@@ -146,7 +148,7 @@ All MQTT messages sent by the SmartApp will use the following topic format:
 | smartthings/2af6229b-ea39-2f03-f07b-920e103c8429/switch/switch       | on       |
 | smartthings/2af6229b-ea39-2f03-f07b-920e103c8429/switch/switch       | off      |
 
-### SmartThings Capabilities Reference
+## SmartThings Capabilities Reference
 For a list of all capabilities and their attributes supported by SmartThings, see these links:
 
 [Production Capabilities](https://developer-preview.smartthings.com/docs/devices/capabilities/capabilities-reference)
