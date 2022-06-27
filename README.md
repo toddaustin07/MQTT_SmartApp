@@ -139,7 +139,7 @@ Here you will choose devices based on their capabilities.  (For each device chos
 All MQTT messages sent by the SmartApp will use the following topic format:
 `smartthings/<device_id>/<capability>/<attribute>`
 
-*Note that the top-level of 'smartthings' can be changed in the SmartApp MQTT configuration.*
+*Note that the topic's top-level of 'smartthings' is the default, but can be changed in the SmartApp MQTT configuration.*
 ### Examples
 | Topic                                      | Message       |
 | -----------------------------------------------| ------------|
