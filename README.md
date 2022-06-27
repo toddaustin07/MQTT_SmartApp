@@ -227,12 +227,12 @@ sudo apt install ufw
 sudo ufw allow <port></[tcp|udp]> comment "<whatever you want>"
 sudo ufw status
 ```
-##### Block pings
-- Edit /etc/ufw/before.rules
-- Add line in 'ok icmp codes for INPUT' section:
-```
--A ufw-before-input -p icmp --icmp-type echo-request -j DROP
-```
+- Block pings
+  - Edit /etc/ufw/before.rules
+  - Add line in 'ok icmp codes for INPUT' section:
+  ```
+  -A ufw-before-input -p icmp --icmp-type echo-request -j DROP
+  ```
 - Enable the firewall
 ```
 sudo ufw enable
