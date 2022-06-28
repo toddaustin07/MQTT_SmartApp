@@ -19,9 +19,9 @@ This SmartApp is still being refined and tested as of June 2022.  Currently, the
 
 The intention is to expand this list to nearly all relevant SmartThings device types, but the speed at which this support is expanded will depend entirely on community interest and priorities.
 
-Testing has only been done so far with ngrok and Mosquitto-based configurations on a Raspberry Pi running Raspberry Pi OS (Linux), although there is nothing inherent in the code that would prevent it from running on other operating environments as long as they support nodeJS have can provide the needed internet access.
+Testing has only been done so far with ngrok and Mosquitto-based configurations on a Raspberry Pi running Raspberry Pi OS (Linux), although there is nothing inherent in the code that would prevent it from running on other operating environments.  The operating environment needs to support nodeJS and provide the needed internet access.
 
-Note: This document assumes the reader has a working knowledge of Linux, installing packages, editing files, etc.
+Note: This document assumes the reader has at least a basic working knowledge of Linux, installing packages, editing files, etc.
 
 ## Requirements
 
