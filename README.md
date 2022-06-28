@@ -20,7 +20,7 @@ Note: This document assumes the reader has a working knowledge of Linux, install
 
 ### Network
 - Fixed internet IP address
-  - To avoid having to pay your ISP for a fixed IP (not even an option from some ISPs), or set up and maintain a full-blown internet server (yikes!), a utility like [ngrok](https://ngrok.com/) or similar can be used to create a secure tunnel and assigns you a 'fixed' URL to use. This is very simple thing to do, and is safe and secure.
+  - To avoid having to pay extra to your ISP for a fixed IP (not even an option from some ISPs), or set up and maintain a full-blown internet server (yikes!), a utility like [ngrok](https://ngrok.com/) or similar can be used to create a secure tunnel and assigns you a 'fixed' URL to use. This is very simple thing to do, and is safe and secure.
 ### Server
 - nodeJS (this application was developed and tested on version 16.3.1)
 - [SmartThings SmartApp SDK for nodeJS](https://github.com/SmartThingsCommunity/smartapp-sdk-nodejs)
