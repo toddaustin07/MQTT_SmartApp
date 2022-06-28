@@ -37,20 +37,20 @@ Note: This document assumes the reader has a working knowledge of Linux, install
 ## Setup
 We will assume the use of ngrok and Mosquitto on a Raspberry PI 4 running Raspberry PI OS (Debian Linux)
 ### Server
-Although ngrok is a perfectly safe and secure method to access your server from the internet, it is still a good idea to do everything you can to secure your computer from malicious attacks.  See under the 'Advanced' section below some tips for doing that.
+Although ngrok is a safe and secure method to access your server from the internet, it is still a good idea to do everything you can to secure your computer from malicious attacks.  See the 'Advanced' section below for some tips for doing that.
 #### Install nodeJS
 - Download latest binary from https://nodejs.org/en/download/
 - Extract the downloaded file using tar -xf \<filename\> (may need to apt-install xz-utils)
 - Change to the new extraction subdirectory and run: sudo cp -R * /usr/local/
 - Test by returning to home directory and run: node \-\-version
 #### Install SmartApp SDK for nodeJS
-- Create a project directory and change to it
-- Install using npm:
+- Create a project directory and cd into it
+- Install the SDK using npm:
 ```
 npm i @smartthings/smartapp --save
 ```
 #### Install Mosquitto
-*Note that this can be installed on a separate server on your network.*
+*Note that the MQTT broker can be installed on a separate server on your network.*
 ```
 sudo apt update && sudo apt upgrade
 sudo apt install -y mosquitto mosquitto-clients
@@ -58,29 +58,29 @@ sudo systemctl enable mosquitto.service
 ```
 #### Install ngrok
 - [Sign up](https://ngrok.com/) for ngrok's free tier account
-- Follow the [Getting Started Guide](https://ngrok.com/docs/getting-started) for installing, starting, and testing ngrok
-- Choose a port number to use for your SmartApp, e.g. 8083, and start ngrok
+- Follow the [Getting Started Guide](https://ngrok.com/docs/getting-started) for installing and testing ngrok
+- Choose a port number to use for your SmartApp, e.g. 8083, and start ngrok:
 ```
 ngrok https 8083
 ```
 - Open a browser window for URL:  http://localhost:4040/status
   - This is ngrok's browser-based console
 - Click on the **Status** link at the top black menu bar
-- Take note of your assigned command_line URL address (in the format: https://xxxx-xx-x-xxx-xxx.ngrok.io)
+- Take note of your assigned 'command_line URL' address (in the format: https://xxxx-xx-x-xxx-xxx.ngrok.io)
 - Click on the **Inspect** link at the top black menu bar: this page will show details of all received POST messages from SmartThings
 
 ### Create Developer Workplace project
 - Sign in to Samsung SmartThings [Developer Workspace](https://smartthings.developer.samsung.com/workspace)
 - Create New Project and choose 'Automation for the SmartThings App'
 - Name the project (e.g. MQTT Sender)
-- Choose Register App, then WebHook Endpoint
+- Choose *Register App*, then *WebHook Endpoint*
 - Enter the URL from ngrok (e.g. https://xxxx-xx-x-xxx-xxx.ngrok.io)
 - Provide an App Display Name and Description
 - Select Permissions required:  r:devices* and r:locations:*
 - Leave *SmartApp Instances* and *Custom Parameters* empty and click **SAVE**
 - Copy Client ID and Client Secret (although you won't use them) and click **GO TO PROJECT OVERVIEW**
 - Click **VERIFY APP REGISTRATION**
-  - SmartThings will send a CONFIRMATION request.  This message contains a confirmation URL that you must type into a browser in order to verify your URL address.  You will see this message back on the ngrok browser page if you have clicked the **Inspect** menu.  You should see a POST message displayed on the right sight of the page, with contents as follows:
+  - This will cause SmartThings to send a CONFIRMATION request to your ngrok address.  This message contains a confirmation URL that you must type into a browser in order to verify your URL address.  You will see this message back on the ngrok browser console page if you have clicked the **Inspect** menu there.  You should see a POST message displayed on the right sight of the page, with contents similar to the following:
 ```
 {
   "lifecycle": "CONFIRMATION",
@@ -95,12 +95,13 @@ ngrok https 8083
   "settings": {}
 }
 ```
-The CONFIRMATION_URL should be copied and pasted into another browser tab and press enter.  This is will validate your URL, and the "VERIFY APP REGISTRATION" notice back on the Developer Workspace page should go away
+The *CONFIRMATION_URL* should be copied and pasted into another browser tab and press enter.  This will validate your URL, and the "VERIFY APP REGISTRATION" notice back on the Developer Workspace page should disappear.
 - You can now click the **DEPLOY TO TEST** button.
 - Optionally start *Live Logging*
+  - This will log messages from the SmartThings side of thing whenever there is activity with your SmartApp
 
 ### Download and configure the nodeJS SmartApp
-- Clone this repository onto your server and copy these files to your project directory:
+- Clone [this github repository](git@github.com:toddaustin07/MQTT_SmartApp.git) onto your server and copy these files to the project directory you created earlier (and installed the SDK into):
 ```
 smartapps.js
 mqttout.js
@@ -114,18 +115,19 @@ config.json
 ```
 node smartapp.js
 ```
-- You should see a couple console log messages indicating that MQTT is not yet configured, and the SmartApp is listening on port 8083.
-- Once you have completed configuring the SmartApp in the mobile app (outlined below), you will see additional console log messages from the nodeJS application indicating if it successfully connected to the MQTT Broker.  And then additional messages will be logged whenever SmartThing device state changes are received and forwarded to MQTT.
+- You should see a console log message indicating the SmartApp is listening on port 8083 (or whatever you are using).
+- Once you complete installing & configuring the SmartApp in the mobile app (outlined below), you will see additional console log messages from the nodeJS application indicating if it successfully connected to the MQTT Broker.  And then additional messages will be logged whenever SmartThing device state changes are received and forwarded to MQTT.
 
-### Install the new smartapp in your SmartThings mobile app
+### Install the new SmartApp in your SmartThings mobile app
 - Go to the Automations page in the mobile app
 - Tap on the '+' in the upper right and select *Add routine*
 - Tap the *Discover* tab
 - Scroll down the list of SmartApps until you see one with the name you chose in the Developer Workspace
   - You may see duplicate entries (this is a bug in SmartThings).  Usually the one that actually works is the one *missing* the description.
+  - If you don't find your SmartApp listed, make sure you have developer mode enabled (in SmartThings mobile app settings), and that you completed the Developer Workspace project steps outlined earlier.
 - Tap your SmartApp
-- You now should see activity on your ngrok Inspect page, as well as console log messages from your SmartApp on your server
-- Once the SmartApp is 'installed' in your mobile app, it should be listed whenever you go to the *Automations* page and expand the *SmartApps* twisty.
+- You now should see activity on your ngrok Inspect page, as well as console log messages from your nodeJS SmartApp on your server indicating POST messages received
+- Once the SmartApp is 'installed' in your mobile app (after configuring for the first time - see below), it should be listed whenever you go to the *Automations* page and expand the *SmartApps* twisty.
 #### Configuration
 - When you open the MQTT smartapp in your mobile app, you will be taken to the main configuration page where you can rename the SmartApp and navigate to the Configuration options.
 - There are two main parts of configuration: (1) MQTT settings and (2) Device selection by capability
@@ -138,8 +140,8 @@ node smartapp.js
 - **Retain Option**:  Turn on if you want the broker to retain the last message to send to the next subscriber
 - **Quality of Service (QoS)**: Tap to choose level 0, 1, or 2
 ##### Device Selection
-Here you will choose devices based on their capabilities.  (For each device chosen, an MQTT message will be published whenever the state changes for the capability.)
-- Once you have finished, return to the main page and tap *Done*, and then tap *Allow* on the next page
+Here you will choose devices based on their capabilities.  (For each device chosen, an MQTT message will be published whenever the state changes for the capability)
+- Once you have finished selecting devices, return to the main page, tap *Done*, and then tap *Allow* on the next page.
 - Your SmartApp configuration is now complete.
 - Monitor the console log messages on your server to be sure the broker connection was successful and no errors occurred.
 
@@ -150,11 +152,13 @@ mosquitto_sub -v -h localhost -t "smartthings/#"
 ```
 You can monitor all messages that are being sent by the SmartApp.  
 
-Note that the topic "smartthings/status" is used to send some SmartApp status messages indicating when it has started or configuration has been updated.
+Note that the topic "smartthings/status" is used to send some SmartApp status messages indicating when it has connected to the broker or config was updated.
 
 ## MQTT Messages
 All MQTT messages sent by the SmartApp will use the following topic format:
-`smartthings/<device_id>/<capability>/<attribute>`
+```
+smartthings/<device_id>/<capability>/<attribute>
+```
 
 *Note that the topic's top-level of 'smartthings' is the default, but can be changed in the SmartApp MQTT configuration.*
 ### Examples
@@ -171,10 +175,12 @@ For a list of all capabilities and their attributes supported by SmartThings, se
 [Production Capabilities](https://developer-preview.smartthings.com/docs/devices/capabilities/capabilities-reference)
 
 [Proposed Capabilities](https://developer-preview.smartthings.com/docs/devices/capabilities/proposed)
+- although in 'proposed' status, these capabilities are also available but may not be 100% functional
 
 ## Advanced
 ### Securing your server
-These tips are tailored for a Linux-based Raspberry Pi server, but can apply to any internet-accessable server with the appropriate modifications.
+These tips are tailored for a Linux-based Raspberry Pi server, but can apply to any internet-accessable server with the appropriate modifications.  You can choose to implement any or all of these tips, depending upon your level of paranoia!
+
 #### Create new user account with admin and sudo priviledges
 Don't keep using the default 'pi' account.
 ```
@@ -315,10 +321,21 @@ Keep an eye on all the logs below to spot any malicious access attemps.
 ---
 
 ### Running additional SmartApps on your local server
-The free tier of ngrok provides only one URL to use.  Therefore, all SmartApps you wish to run on your local server must operate over this one common network tunnel.  The smartapps.js module provides a framework to enable multiple SmartApps.  Its config.json file provides a way to configure multiple applications by identifying their SmartThings application ID and module name.
+The free tier of ngrok provides only one URL to use.  Therefore, all SmartApps you wish to run on your local server must share this one common network tunnel.  The smartapps.js module used in this package provides a framework to enable multiple installed SmartApps over the same port and ngrok URL.
 
-If you want to run other SmartApps on your local server in addition to the MQTT Sender app, edit the config.json file to add the appid (SmartThings *APPID* assigned by Developer Workspace project) and module name (.js file) in the applist array element.  Copy your other SmartApp .js files to the same project directory, and copy any language files to the *locales* subdirectory.
+If you want to run other SmartApps on your local server in addition to the MQTT Sender app:
+1. Edit the config.json file and add the appid (SmartThings *APPID* assigned by Developer Workspace project) and module name (.js file) in the applist array element.  
+```
+{
+  "port": 8083,
+  "applist": [ { "appid": "12345678-cdef-abcd-1234-f1e2d3c4b5a6", "module": "mqttout" },
+               { "appid": "87654321-fedc-12ea-19a2-9a8b7c6d5e5f", "module": "mysecondapp" }
+             ]
+}
+```
 
-Your module should export your instantiated SmartApp and an init() function that will be called after the module is loaded to perform any additional initialization required for your SmartApp.  Reference the mqttout.js file for an example.
+Copy your other SmartApp .js files (e.g. mysecondapp.js, etc) to your smartapp project directory, and copy any language files (e.g. mysecondapp_en.json) to the *locales* subdirectory.
+
+Your module should export your instantiated SmartApp object as 'app'.  Reference the mqttout.js file for an example.
 
 Your module will be loaded by smartapps.js during startup and all POST messages for your application will be routed to it.
