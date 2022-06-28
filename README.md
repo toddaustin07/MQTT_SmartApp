@@ -51,7 +51,7 @@ Although ngrok is a safe and secure method to access your server from the intern
 - Change to the new extraction subdirectory and run: sudo cp -R * /usr/local/
 - Test by returning to home directory and run: node \-\-version
 #### Install SmartApp SDK for nodeJS
-- Create a project directory and cd into it
+- Create a project directory and cd into it (e.g. ~/smartthings/smartapps)
 - Install the SDK using npm:
 ```
 npm i @smartthings/smartapp --save
