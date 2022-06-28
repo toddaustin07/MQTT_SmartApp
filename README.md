@@ -37,7 +37,7 @@ Note: This document assumes the reader has a working knowledge of Linux, install
 ## Setup
 We will assume the use of ngrok and Mosquitto on a Raspberry PI 4 running Raspberry PI OS (Debian Linux)
 ### Server
-Although ngrok is a safe and secure method to access your server from the internet, it is still a good idea to do everything you can to secure your computer from malicious attacks.  See the 'Advanced' section below for some tips for doing that.
+Although ngrok is a safe and secure method to access your server from the internet, it is still a good idea to do everything you can to secure your computer from malicious attacks.  See the 'Advanced' section below for some tips on doing that.
 #### Install nodeJS
 - Download latest binary from https://nodejs.org/en/download/
 - Extract the downloaded file using tar -xf \<filename\> (may need to apt-install xz-utils)
