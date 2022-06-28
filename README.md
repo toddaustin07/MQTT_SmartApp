@@ -159,10 +159,10 @@ mosquitto_sub -v -h localhost -t "smartthings/#"
 ```
 You can monitor all messages that are being sent by the SmartApp.  
 
-Note that the topic "smartthings/status" is used to send some SmartApp status messages indicating when it has connected to the broker or config was updated.
-
 ## MQTT Messages
-All MQTT messages sent by the SmartApp will use the following topic format:
+The topic "smartthings/status" is used to send some SmartApp status messages indicating when it has connected to the broker or config was updated.
+
+All other MQTT messages for device state updates sent by the SmartApp will use the following topic format:
 ```
 smartthings/<device_id>/<capability>/<attribute>
 ```
