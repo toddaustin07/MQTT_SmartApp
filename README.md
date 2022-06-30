@@ -153,10 +153,15 @@ Here you will choose devices based on their capabilities.  (For each device chos
 - Monitor the console log messages on your server to be sure the broker connection was successful and no errors occurred.
 
 ## Testing/Verification
-Start up an MQTT subscription utility such as mosquitto_sub and subscribe to the 'smartthings/#' topic:
-```
-mosquitto_sub -v -h localhost -t "smartthings/#"
-```
+Start up an MQTT subscription utility such and subscribe to the 'smartthings/#' topic:
+- mosquitto_sub
+  ```
+  mosquitto_sub -v -h localhost -t "smartthings/#"
+  ```
+- nodeJS mqtt
+  ```
+  mqtt sub -t 'smartthings/#' -h <broker_ip> -v
+  ``` 
 You can monitor all messages that are being sent by the SmartApp.  
 
 ## MQTT Messages
