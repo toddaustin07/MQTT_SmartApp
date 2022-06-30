@@ -27,7 +27,7 @@ Note: This document assumes the reader has at least a basic working knowledge of
 
 ### Network
 - Fixed internet IP address
-  - To avoid (1) having to pay extra to your ISP for a fixed IP (not even an option from some ISPs), or (2) setting up and maintain a full-blown internet server (yikes!), a utility like [ngrok](https://ngrok.com/) or similar can be used to create a secure tunnel from the internet to your server, and assigns you a 'fixed' URL to use. This is very simple thing to do, and is sufficiently safe and secure for most personal uses.
+  - To avoid (1) having to pay extra to your ISP for a fixed IP (not even an option from some ISPs), or (2) setting up and maintaining a full-blown internet server (yikes!), a utility like [ngrok](https://ngrok.com/) or similar can be used to create a secure tunnel from the internet to your server, and assigns you a 'fixed' URL to use. This is very simple thing to do, and is sufficiently safe and secure for most personal uses.
 ### Server
 - nodeJS (this application was developed and tested on version 16.3.1)
 - [SmartThings SmartApp SDK for nodeJS](https://github.com/SmartThingsCommunity/smartapp-sdk-nodejs)
