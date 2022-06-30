@@ -153,7 +153,7 @@ Here you will choose devices based on their capabilities.  (For each device chos
 - Monitor the console log messages on your server to be sure the broker connection was successful and no errors occurred.
 
 ## Testing/Verification
-Start up an MQTT subscription utility such and subscribe to the 'smartthings/#' topic:
+Start up an MQTT subscription utility and subscribe to the 'smartthings/#' topic:
 - mosquitto_sub
   ```
   mosquitto_sub -v -h localhost -t "smartthings/#"
