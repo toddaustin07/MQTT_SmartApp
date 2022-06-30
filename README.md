@@ -12,7 +12,7 @@ There already exist solutions to integrate SmartThings with MQTT, often using so
 
 As most users know already, SmartThings is kicking off all device drivers and SmartApps from their own infrastructure.  When the transition is completed, any SmartApp needs to be running on its own internet server or AWS.  As a result, all Groovy-based drivers and SmartApps are going to have to be re-written and re-platformed or they will no longer be available.
 
-This SmartApp was developed for the new architecture using the new SmartApp SDK, and implemented as a supported webhook nodeJS application.  It is intended to run on your own local LAN server, using any available MQTT broker.  Therefore no bridge is required.  Although the nodeJS implementation of the SmartApp is running locally, it still is dependent on an internet connection to interact with the SmartThings servers.  (This is unlike the new Edge device drivers which can run on a local SmartThings hub even when the internet connection is down.)
+This SmartApp was developed for the new architecture using the new SmartApp SDK, and implemented as a supported webhook nodeJS application.  It is intended to run on your own local LAN server, using any available MQTT broker.  Therefore no bridge is required.  Although the nodeJS implementation of the SmartApp is running locally, it still is dependent on an internet connection to receive subscribed events from SmartThings.  (This is unlike the new Edge device drivers which can run on a local SmartThings hub even when the internet connection is down.)
 
 ## Caveats
 This SmartApp is still being refined and tested as of June 2022.  Currently, the following device types are supported: `switch, button, contact, motion, presence`
