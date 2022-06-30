@@ -108,7 +108,7 @@ The *CONFIRMATION_URL* should be copied and pasted into another browser tab and 
   - This will log messages from the SmartThings side of things whenever there is activity with your SmartApp
 
 ### Download and configure the nodeJS SmartApp
-- Clone [this github repository](https://github.com/toddaustin07/MQTT_SmartApp.git)) onto your server and copy these files to the project directory you created earlier (and installed the SDK into):
+- Clone [this github repository](https://github.com/toddaustin07/MQTT_SmartApp.git) onto your server and copy these files to the project directory you created earlier (and installed the SDK into):
 ```
 smartapps.js
 mqttout.js
