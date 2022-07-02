@@ -14,6 +14,8 @@
 
   DESCRIPTION:  SmartThings SmartApp to send out MQTT messages for device capability state changes.  Requires
   a SmartApp webhook project defined in Developer Workspace.
+   
+  This module loaded by smartapp.js
 
 */
 
@@ -23,7 +25,6 @@
 const SmartApp = require('@smartthings/smartapp');
 const common = require('./common');
 var mqtt=require('mqtt');
-const fs = require('fs');
 
 var mqttconfig = {
     ipaddr: '',
@@ -36,19 +37,16 @@ var mqttconfig = {
 }    
     
 var status_topic;
-var msg_topic;
 var msg_queue = [];
 
 var mqttClient;
-
-
 
 var pub_options = {
         retain:false,
         qos:1};
 
 
-/* Defines the SmartApp */
+/* Instantiate the SmartApp through the SDK */
 const app = new SmartApp()
     //.enableEventLogging(2)               // Log and pretty-print all lifecycle events and responses
     .configureI18n({prefix: 'mqttout_'})   // Use file from locales directory for configuration page localization
@@ -87,7 +85,7 @@ const app = new SmartApp()
                    .required(false)
                    
             section.textSetting('topic')
-                    .defaultValue('smartthings')
+                    .defaultValue('smartthings/|deviceid/|capability/|attribute')
                     .required(true)
                    
             section.booleanSetting('retain')
@@ -169,44 +167,31 @@ const app = new SmartApp()
     })
     
     
-    /* Event Handlers - Send MQTT message with updated value */
+    /* Event Handlers (generic handler not supported by SDK - duh) - Send MQTT message with updated value */
     
-    .subscribedEventHandler('buttonHandler', (context, deviceEvent) => {
-        common.mylog (`Subscribed event: Button device attribute changed to ${deviceEvent.value}`);
-        proc_event(context, deviceEvent);
-    })
-    .subscribedEventHandler('contactHandler', (context, deviceEvent) => {
-        common.mylog (`Subscribed event: Contact device attribute changed to ${deviceEvent.value}`);
-        proc_event(context, deviceEvent);
-    })
-    .subscribedEventHandler('motionHandler', (context, deviceEvent) => {
-        common.mylog (`Subscribed event: Motion device attribute changed to ${deviceEvent.value}`);
-        proc_event(context, deviceEvent);
-    })
-    .subscribedEventHandler('presenceHandler', (context, deviceEvent) => {
-        common.mylog (`Subscribed event: Presence device attribute changed to ${deviceEvent.value}`);
-        proc_event(context, deviceEvent);
-    })
-    .subscribedEventHandler('switchHandler', (context, deviceEvent) => {
-        common.mylog (`Subscribed event: Switch device attribute changed to ${deviceEvent.value}`);
-        proc_event(context, deviceEvent);
-    })
+    .subscribedEventHandler('buttonHandler', (context, deviceEvent) => { common_handler(context, deviceEvent) })
+    .subscribedEventHandler('contactHandler', (context, deviceEvent) => { common_handler(context, deviceEvent) })
+    .subscribedEventHandler('motionHandler', (context, deviceEvent) => { common_handler(context, deviceEvent) })
+    .subscribedEventHandler('presenceHandler', (context, deviceEvent) => { common_handler(context, deviceEvent) })
+    .subscribedEventHandler('switchHandler', (context, deviceEvent) => { common_handler(context, deviceEvent) })
     
-
-// Publish MQTT messages for device attribute updates
-function proc_event(context, deviceEvent) {
     
-    // Take care of any MQTT-related setting changes
-    // - Needed here when this module re-started and receives device event without prior .updated event
+// Handle received device attribute update events
+function common_handler(context, deviceEvent) {
+    
+    common.mylog (`Subscribed event: ${deviceEvent.capability} device attribute changed to ${deviceEvent.value}`);
+    
     msg_queue.push({context: context, event: deviceEvent});
     
-    if (maintain_mqttconfig(context.config) == false) {
+    // Need to check MQTT config & connection to be sure it's active
+    if (maintain_mqttconfig(context.config) == false) {         // false indicates no config change
         
         sendMQTT();
         
     }
-} 
-
+}    
+    
+    
 // Publish whatever is in msg_queue
 async function sendMQTT() {
 
@@ -228,27 +213,8 @@ async function sendMQTT() {
     }
 }
   
-/*
-async function getdevinfo(context, deviceID) {
-    
-    const devinfo = await context.api.devices.get(deviceID);
-    
-    return (devinfo)
-}
 
-async function getroominfo(context, locationID, roomID) {
-    
-    await context.api.rooms.get(locationID, roomID)
-        .then(roominfo => {
-            console.log(roominfo);
-            return (roominfo);
-        })
-        .catch(err => {
-            console.log('Error fetching room info: ' + err);
-        });
-}
-*/
-
+// Construct MQTT topic based on configuration template
 async function buildtopic(context, event, segments) {
 
     var topic = "";
@@ -295,7 +261,7 @@ async function buildtopic(context, event, segments) {
                 }
                 break;
                                 
-            case '|room':
+            case '|room':           // this is not working at the moment
                 console.log('devinfo: ' + devinfo);
                 if (devinfo == null) {
                     devinfo = await context.api.devices.get(event.deviceId);
@@ -326,6 +292,8 @@ async function buildtopic(context, event, segments) {
 
 }
 
+// Check for any MQTT configuration changes and update & reconnect if necessary
+//   returns true if config changed and broker connection re-established, otherwise false
 function maintain_mqttconfig(config) {
     
     const changed = mqttconfig_changed(config);
@@ -370,7 +338,7 @@ function mqttconfig_changed(config) {
 }    
     
 
-// Update MQTT config file with latest values and restart MQTT connection
+// Update MQTT config with latest values and restart MQTT connection
 function update_mqttconfig(config) {
 
     mqttconfig.ipaddr = config.brokerIP[0].stringConfig.value
@@ -399,6 +367,7 @@ function update_mqttconfig(config) {
 
 }
 
+// Connect to MQTT broker and publish any outstanding messages
 function mqttconnect(url, options) {
     
     mqttClient = mqtt.connect(url, options)
@@ -406,16 +375,16 @@ function mqttconnect(url, options) {
         .on("connect", () => {
             common.mylog("MQTT Broker connected");
             mqttClient.publish(status_topic, "SmartThings MQTT SmartApp has (re)connected", {retain:false, qos:0});
-            sendMQTT();       // send any outstanding message
+            sendMQTT();
         });
 
-    mqttClient.stream.on("error", (error) => {
+    mqttClient.stream.on("error", (error) => {          // stream is required to catch socket errors
         common.mylog("Can't connect to MQTT Broker: " + error);
         mqttClient.end(true)
     });
 }        
 
-// Initialize MQTT Broker connection
+// (re)Initialize MQTT Broker connection
 function mqttinit() {
  
     var connect_options = {
@@ -438,7 +407,7 @@ function mqttinit() {
             mqttClient.end(true, {reasonString: "User reset"}, () => {
                 common.mylog("MQTT Broker connection is being reset");
                 mqttconnect(brokeraddr, connect_options);
-                
+                return;
             });
         } else {
             mqttconnect(brokeraddr, connect_options);
