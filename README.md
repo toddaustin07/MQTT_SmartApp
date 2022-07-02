@@ -155,10 +155,10 @@ Here you will choose devices based on their capabilities.  (For each device chos
 ## Topic Template
 The topic used to send MQTT messages will be based on the 'Topic Template' field in the SmartApp MQTT configuration screen.  The template allows you to specify what topic string to use, and can contain topic levels that are dynamic, as outlined below.
 
-- The overall Topic Template should conform to the standard MQTT addressing format consisting of one or more topic levels separated by '/'.
+- The overall Topic Template should conform to the standard MQTT addressing format consisting of one or more topic levels separated by '/' (*level1/level2/level3*).
 
 ### Dynamic topic levels
-Using certain special string elements in the Topic Template will result in dynamic substituion of their value.  These special identifiers will always begin with a '|' character (vertical bar).  These special identifiers are to be used as a level element of a topic (*level1/level2/level3*), and cannot be combined with fixed strings *within* the same level element.
+Using certain special string elements in the Topic Template will result in dynamic substituion of their value.  These special identifiers will always begin with a '|' character (vertical bar).  These special identifiers are to be used as a level element of a topic, and cannot be combined with fixed strings *within* the same level element.
 
 Currently supported are the following:
 | String element | Dynamically Substituted Value                |
