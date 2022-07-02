@@ -196,7 +196,7 @@ Note that Topic Templates can contain any combination of fixed string elements a
 Of course, the overall Topic Template should conform to the standard MQTT addressing format consisting of one or more topic levels separated by '/'.
 
 ### Status Messages
-The top level topic from the Topic Template will be used to send various status messages such as indications of MQTT (re)connection or SmartApp configuration changes.  For example, if the top level topic is 'smartthings', the following topic will be used for these status messages: 'smartthings/status'.  This topic can be monitored to confirm the operational status of the nodeJS SmartApp.
+The top level topic from the Topic Template will be used to send various status messages such as indications of MQTT (re)connection or SmartApp configuration changes.  For example, if the top level topic is 'smartthings', the following topic will be used for these status messages: 'smartthings/status'.  This topic can be subscribed-to for notification of the operational status of the nodeJS SmartApp.
 
 ## SmartThings Capabilities Reference
 For a list of all capabilities and their attributes supported by SmartThings, see these links:
