@@ -162,10 +162,11 @@ Certain string elements used in the levels of the Topic Template will result in 
 | \|deviceid     | SmartThings UUID-format deviceId             |
 | \|label        | SmartThings user-defined device label\*      |
 | \|name         | SmartThings integration-assigned device name |
-| \|capability   | SmartThings capability name                  |
-| \|attribute    | SmartThings capability attribute             |
+| \|capability   | SmartThings capability name\*\*                |
+| \|attribute    | SmartThings capability attribute\*\*           |
 
-- \* If a label value contains blanks, they will be replace with '\_' (underscore) characters.  For example "My motion device" becomes "My_motion_device".
+\* If a label value contains blanks, they will be replace with '\_' (underscore) characters.  For example "My motion device" becomes "My_motion_device".
+\** See *SmartThings Capabilities Reference* below for more info on SmartThings capabilities.
 
 #### Examples
 | Topic Template                                     | Example Topics                                                                        |
