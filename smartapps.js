@@ -63,15 +63,15 @@ server.post('/', async (req, res) => {
 var i = 0
 
 // Try to load each SmartApp module defined in config file
-//try {
+try {
     applist.forEach(function(appinfo) {
         appmodules[i++] = require('./'+appinfo.module)
     });
-//} catch (err) {
-//    common.mylog('Could not load SmartApp module configured in ./config.json')
-//    common.mylog(err);
-//    process.exit(1);
-//}
+} catch (err) {
+    common.mylog('Could not load SmartApp module configured in ./config.json')
+    common.mylog(err);
+    process.exit(1);
+}
 
 
 /* Starts the Express HTTP server */
