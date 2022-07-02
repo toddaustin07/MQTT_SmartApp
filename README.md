@@ -143,7 +143,7 @@ node smartapp.js
 - **Broker Port**:  This defaults to the standard MQTT port 1883, but can be modified if needed
 - **Broker Authentication USERID**:  If you have configured your broker to require sign-in, provide the userid here
 - **Broker Authentication Password**:  If you have configured your broker to require sign-in, provide the password here
-- **Topic Template**:  All MQTT messages published will be sent using this topic; see below for details
+- **Topic Template**:  All device state change MQTT messages published will be sent using this topic; see below for details
 - **Retain Option**:  Turn on if you want the broker to retain the last message to send to the next subscriber
 - **Quality of Service (QoS)**: Tap to choose level 0, 1, or 2
 ##### Device Selection
@@ -153,7 +153,7 @@ Here you will choose devices based on their capabilities.  (For each device chos
 - Monitor the console log messages on your server to be sure the broker connection was successful and no errors occurred.
 
 ## Testing/Verification
-Start up an MQTT subscription utility and subscribe to the 'smartthings/#' topic:
+Start up an MQTT subscription utility and subscribe to the topic level topic you configured in Topic Template, e.g. 'smartthings/#':
 - mosquitto_sub
   ```
   mosquitto_sub -v -h localhost -t "smartthings/#"
@@ -166,17 +166,17 @@ You can monitor all messages that are being sent by the SmartApp.
 
 ## MQTT Message Topics
 
-The topic used to send MQTT messages will be based on the 'Topic Template' field in the SmartApp MQTT configuration screen.  The template allows you to specify what topic string to use, and can contain dynamic fields as outlined below.
+The topic used to send MQTT messages will be based on the 'Topic Template' field in the SmartApp MQTT configuration screen.  The template allows you to specify what topic string to use, and can contain topic levels that are dynamic, as outlined below.
 
-### Dynamic topic elements
-Certain string elements used in the Topic Template will result in dynamic substituion of their value.  These special identifiers will always begin with a '|' character (vertical bar).  Currently supported are the following:
-| String element | Dynamically Substituted Value          |
-| -------------- | -------------------------------------  |
-| \|deviceid     | SmartThings UUID-format deviceId       |
-| \|label        | SmartThings user-defined device label\* |
-| \|name         | SmartThings-assigned device name       |
-| \|capability   | SmartThings capability name            |
-| \|attribute    | SmartThings capability attribute       |
+### Dynamic topic levels
+Certain string elements used in the levels of the Topic Template will result in dynamic substituion of their value.  These special identifiers will always begin with a '|' character (vertical bar).  Currently supported are the following:
+| String element | Dynamically Substituted Value                |
+| -------------- | -------------------------------------------- |
+| \|deviceid     | SmartThings UUID-format deviceId             |
+| \|label        | SmartThings user-defined device label\*      |
+| \|name         | SmartThings integration-assigned device name |
+| \|capability   | SmartThings capability name                  |
+| \|attribute    | SmartThings capability attribute             |
 
 - \* If a label value contains blanks, they will be replace with '\_' (underscore) characters.  For example "My motion device" becomes "My_motion_device".
 
@@ -188,6 +188,8 @@ Certain string elements used in the Topic Template will result in dynamic substi
 | smartthings/\|deviceid/\|capability/\|attribute       | smartthings/8b6d9e55-be64-4e61-a637-54524be04685/switch/switch                       |
 | smartthings/\|deviceid/\|capability/\|attribute       | smartthings/2af6229b-ea39-2f03-f07b-920e103c8429/motionSensor/motion                 |
 | smartthings/\|label/mynotice                       | smartthings/some_device_label/mynotice                                               |
+
+Fixed string elements should be limited to the character set \[a-zA-Z0-9_] to avoid any unexpected problems.
 
 Note that Topic Templates can contain any combination of fixed string elements and dynamic elements.  Any element not beginning with a '|' or not one of the special dynamic elements listed above, will be treated as a fixed string element.  
 
