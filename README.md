@@ -83,7 +83,7 @@ ngrok https 8083
 - Choose *Register App*, then *WebHook Endpoint*
 - Enter the URL from ngrok (e.g. https://xxxx-xx-x-xxx-xxx.ngrok.io)
 - Provide an App Display Name and Description
-- Select Permissions required:  r:devices* and r:locations:*
+- Select Permissions required:  r:devices* and r:locations:\* (and also r:customcapability, if desired)
 - Leave *SmartApp Instances* and *Custom Parameters* empty and click **SAVE**
 - Copy Client ID and Client Secret (although you won't use them) and click **GO TO PROJECT OVERVIEW**
 - Click **VERIFY APP REGISTRATION**
@@ -143,7 +143,7 @@ node smartapp.js
 - **Broker Port**:  This defaults to the standard MQTT port 1883, but can be modified if needed
 - **Broker Authentication USERID**:  If you have configured your broker to require sign-in, provide the userid here
 - **Broker Authentication Password**:  If you have configured your broker to require sign-in, provide the password here
-- **Top-level Topic**:  All MQTT messages published will begin with this top-level topic segment; defaults to 'smartthings'
+- **Topic Template**:  All MQTT messages published will be sent using this topic; see below for details
 - **Retain Option**:  Turn on if you want the broker to retain the last message to send to the next subscriber
 - **Quality of Service (QoS)**: Tap to choose level 0, 1, or 2
 ##### Device Selection
@@ -164,22 +164,37 @@ Start up an MQTT subscription utility and subscribe to the 'smartthings/#' topic
   ``` 
 You can monitor all messages that are being sent by the SmartApp.  
 
-## MQTT Messages
-The topic "smartthings/status" is used to send some SmartApp status messages indicating when it has connected to the broker or config was updated.
+## MQTT Message Topics
 
-All other MQTT messages for device state updates sent by the SmartApp will use the following topic format:
-```
-smartthings/<device_id>/<capability>/<attribute>
-```
+The topic used to send MQTT messages will be based on the 'Topic Template' field in the SmartApp MQTT configuration screen.  The template allows you to specify what topic string to use, and can contain dynamic fields as outlined below.
 
-*Note that the topic's top-level of 'smartthings' is the default, but can be changed in the SmartApp MQTT configuration.*
-### Examples
-| Topic                                      | Message       |
-| -----------------------------------------------| ------------|
-| smartthings/8b6d9e55-be64-4e61-a637-54524be04685/motionSensor/motion | active   |
-| smartthings/8b6d9e55-be64-4e61-a637-54524be04685/motionSensor/motion | inactive |
-| smartthings/2af6229b-ea39-2f03-f07b-920e103c8429/switch/switch       | on       |
-| smartthings/2af6229b-ea39-2f03-f07b-920e103c8429/switch/switch       | off      |
+### Dynamic topic elements
+Certain string elements used in the Topic Template will result in dynamic substituion of their value.  These special identifiers will always begin with a '|' character (vertical bar).  Currently supported are the following:
+| String element | Dynamically Substituted Value          |
+| -------------- | -------------------------------------  |
+| \|deviceid     | SmartThings UUID-format deviceId       |
+| \|label        | SmartThings user-defined device label\* |
+| \|name         | SmartThings-assigned device name       |
+| \|capability   | SmartThings capability name            |
+| \|attribute    | SmartThings capability attribute       |
+
+- \* If a label value contains blanks, they will be replace with '\_' (underscore) characters.  For example "My motion device" becomes "My_motion_device".
+
+#### Examples
+| Topic Template                                     | Example Topics                                                                        |
+| ---------------------------------------------------| -------------------------------------------------------------------------------------|
+| smartthings/alert/node1                            | smartthings/alert/node1                                                              |
+| mytoplevel/alert/node2                             | mytoplevel/alert/node2                                                               |
+| smartthings/\|deviceid/\|capability/\|attribute       | smartthings/8b6d9e55-be64-4e61-a637-54524be04685/switch/switch                       |
+| smartthings/\|deviceid/\|capability/\|attribute       | smartthings/2af6229b-ea39-2f03-f07b-920e103c8429/motionSensor/motion                 |
+| smartthings/\|label/mynotice                       | smartthings/some_device_label/mynotice                                               |
+
+Note that Topic Templates can contain any combination of fixed string elements and dynamic elements.  Any element not beginning with a '|' or not one of the special dynamic elements listed above, will be treated as a fixed string element.  
+
+Of course, the overall Topic Template should conform to the standard MQTT addressing format consisting of one or more topic levels separated by '/'.
+
+### Status Messages
+The top level topic from the Topic Template will be used to send various status messages such as indications of MQTT (re)connection or SmartApp configuration changes.  For example, if the top level topic is 'smartthings', the following topic will be used for these status messages: 'smartthings/status'.  This topic can be monitored to confirm the operational status of the nodeJS SmartApp.
 
 ## SmartThings Capabilities Reference
 For a list of all capabilities and their attributes supported by SmartThings, see these links:
