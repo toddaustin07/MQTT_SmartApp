@@ -152,20 +152,7 @@ Here you will choose devices based on their capabilities.  (For each device chos
 - Your SmartApp configuration is now complete.
 - Monitor the console log messages on your server to be sure the broker connection was successful and no errors occurred.
 
-## Testing/Verification
-Start up an MQTT subscription utility and subscribe to the topic level topic you configured in Topic Template, e.g. 'smartthings/#':
-- mosquitto_sub
-  ```
-  mosquitto_sub -v -h localhost -t "smartthings/#"
-  ```
-- nodeJS mqtt
-  ```
-  mqtt sub -t 'smartthings/#' -h <broker_ip> -v
-  ``` 
-You can monitor all messages that are being sent by the SmartApp.  
-
-## MQTT Message Topics
-
+## Topic Template
 The topic used to send MQTT messages will be based on the 'Topic Template' field in the SmartApp MQTT configuration screen.  The template allows you to specify what topic string to use, and can contain topic levels that are dynamic, as outlined below.
 
 ### Dynamic topic levels
@@ -197,6 +184,18 @@ Of course, the overall Topic Template should conform to the standard MQTT addres
 
 ### Status Messages
 The top level topic from the Topic Template will be used to send various status messages such as indications of MQTT (re)connection or SmartApp configuration changes.  For example, if the top level topic is 'smartthings', the following topic will be used for these status messages: 'smartthings/status'.  This topic can be subscribed-to for notification of the operational status of the nodeJS SmartApp.
+
+## Testing/Verification
+Start up an MQTT subscription utility and subscribe to the topic level topic you configured in Topic Template, e.g. 'smartthings/#':
+- mosquitto_sub
+  ```
+  mosquitto_sub -v -h localhost -t "smartthings/#"
+  ```
+- nodeJS mqtt
+  ```
+  mqtt sub -t 'smartthings/#' -h <broker_ip> -v
+  ``` 
+You can monitor all messages that are being sent by the SmartApp.  
 
 ## SmartThings Capabilities Reference
 For a list of all capabilities and their attributes supported by SmartThings, see these links:
