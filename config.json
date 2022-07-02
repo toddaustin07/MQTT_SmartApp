@@ -1,0 +1,7 @@
+{
+  "port": 8083,
+  "applist": [
+		 { "appid": "hhhhhhhh-hhhh-hhhh-hhhh-hhhhhhhhhhhh", "module": "mqttout" } 
+             ]
+}
+
