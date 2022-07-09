@@ -45,7 +45,6 @@ var pub_options = {
         retain:false,
         qos:1};
 
-
 /* Instantiate the SmartApp through the SDK */
 const app = new SmartApp()
     //.enableEventLogging(2)               // Log and pretty-print all lifecycle events and responses
@@ -141,6 +140,8 @@ const app = new SmartApp()
     
     .updated(async (context, updateData) => {
         await context.api.subscriptions.unsubscribeAll();
+        
+        console.log(context);
         
         var sublist = [];
         
@@ -240,24 +241,24 @@ async function buildtopic(context, event, segments) {
             case '|label':
                 if (devinfo == null) {
                     devinfo = await context.api.devices.get(event.deviceId);
-                    if (devinfo != null) {
-                        nospace = devinfo.label.replaceAll(' ','_');
-                        topic = topic + nospace + '/';
-                    } else {
-                        common.mylog ('Error occurred fetching device description');
-                    }
+                }
+                if (devinfo != null) {
+                    nospace = devinfo.label.replaceAll(' ','_');
+                    topic = topic + nospace + '/';
+                } else {
+                    common.mylog ('Error occurred fetching device description');
                 }
                 break;
                 
             case '|name':
                 if (devinfo == null) {
                     devinfo = await context.api.devices.get(event.deviceId);
-                    if (devinfo != null) {
-                        nospace = devinfo.name.replaceAll(' ','_');
-                        topic = topic + nospace + '/';
-                    } else {
-                        common.mylog ('Error occurred fetching device description');
-                    }
+                }
+                if (devinfo != null) {
+                    nospace = devinfo.name.replaceAll(' ','_');
+                    topic = topic + nospace + '/';
+                } else {
+                    common.mylog ('Error occurred fetching device description');
                 }
                 break;
                                 
