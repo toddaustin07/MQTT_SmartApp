@@ -56,6 +56,12 @@ Although ngrok is a safe and secure method to access your server from the intern
 ```
 npm i @smartthings/smartapp --save
 ```
+#### Install MQTT Client for Node
+Do this on any machine on your LAN where you have Node and want to be able to monitor MQTT messages.
+```
+cd ~
+npm i mqtt --global
+```
 #### Install Mosquitto
 *Note that the MQTT broker can be installed on a separate server on your network.*
 ```
@@ -141,8 +147,8 @@ node smartapp.js
 ##### MQTT Settings
 - **Broker IP Address**:  Enter the IP address of the server where your MQTT broker is running (e.g. Mosquitto)
 - **Broker Port**:  This defaults to the standard MQTT port 1883, but can be modified if needed
-- **Broker Authentication USERID**:  If you have configured your broker to require sign-in, provide the userid here
-- **Broker Authentication Password**:  If you have configured your broker to require sign-in, provide the password here
+- **Broker Authentication username**:  If you have configured your broker to require sign-in, provide the username here
+- **Broker Authentication password**:  If you have configured your broker to require sign-in, provide the password here
 - **Topic Template**:  All device state change MQTT messages published will be sent using this topic; see below for details
 - **Retain Option**:  Turn on if you want the broker to retain the last message to send to the next subscriber
 - **Quality of Service (QoS)**: Tap to choose level 0, 1, or 2
@@ -371,6 +377,7 @@ If you want to run other SmartApps on your local server in addition to the MQTT 
 ```
 
 2. Copy your other SmartApp nodeJS files (e.g. mysecondapp.js, etc) to your smartapp project directory, and copy any language files (e.g. mysecondapp_en.json) to the *locales* subdirectory.
+- *IMPORTANT NOTE:  There is an issue with the SmartThings SDK at the moment with handling multiple language files, so you may need to copy your json to the locales/mqttout_en.json file or visa versa - whatever module gets loaded last will be the one the SDK uses.*
 
 3. Your nodeJS module should export your instantiated SmartApp object as 'app'.  Reference the mqttout.js file for an example.
 
