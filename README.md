@@ -377,7 +377,7 @@ If you want to run other SmartApps on your local server in addition to the MQTT 
 ```
 
 2. Copy your other SmartApp nodeJS files (e.g. mysecondapp.js, etc) to your smartapp project directory, and copy any language files (e.g. mysecondapp_en.json) to the *locales* subdirectory.
-- *IMPORTANT NOTE:  There is an issue with the SmartThings SDK at the moment with handling multiple language files, so you may need to copy your json to the locales/mqttout_en.json file or visa versa - whatever module gets loaded last will be the one the SDK uses.*
+  - *IMPORTANT NOTE:  There is an issue with the SmartThings SDK at the moment with handling multiple language files, so you may need to copy your json to the locales/mqttout_en.json file or visa versa - whatever module gets loaded last will be the one the SDK uses.*
 
 3. Your nodeJS module should export your instantiated SmartApp object as 'app'.  Reference the mqttout.js file for an example.
 
