@@ -186,6 +186,8 @@ Currently supported are the following:
 
 - Topic Templates can contain any combination of fixed string and dynamic indicator levels.  Any level not beginning with a '|' or not one of the special dynamic identifiers listed above, will be treated as a fixed string.
 
+- Use of the |label or |name identifiers will delay the publishing of the message by 2-3 hundred milliseconds due to an additional fetch required to SmartThings.
+
 - Appending a dynamic element with a fixed string is not currently supported (i.e. 'mydeviceid_|deviceid').
 
 ### Status Messages
