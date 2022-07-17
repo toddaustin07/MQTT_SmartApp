@@ -161,7 +161,7 @@ Here you will choose devices based on their capabilities.  (For each device chos
 ## Topic Template
 The topic used to send MQTT messages will be based on the 'Topic Template' field in the SmartApp MQTT configuration screen.  The template allows you to specify what topic string to use, and can contain topic levels that are dynamic, as outlined below.
 
-- The overall Topic Template should conform to the standard MQTT addressing format consisting of one or more topic levels separated by '/' (*level1/level2/level3*).
+- The overall Topic Template should conform to the standard MQTT addressing format consisting of one or more topic level elements separated by '/' (e.g. *level1/level2/level3*).
 
 ### Dynamic topic levels
 Using certain special string elements in the Topic Template will result in dynamic substituion of their value.  These special identifiers will always begin with a '|' character (vertical bar).  These special identifiers are to be used as a level element of a topic, and cannot be combined with fixed strings *within* the same level element.
@@ -175,7 +175,7 @@ Currently supported are the following:
 | \|capability   | SmartThings capability name\*\*                |
 | \|attribute    | SmartThings capability attribute\*\*           |
 
-\* If a label value contains blanks, they will be replace with '\_' (underscore) characters.  For example "My motion device" becomes "My_motion_device".
+\* If a label value contains blanks, the blanks will be replaced with '\_' (underscore) characters.  For example "My motion device" becomes "My_motion_device".
 
 \*\* See *SmartThings Capabilities Reference* below for more info on SmartThings capabilities.
 
@@ -194,13 +194,13 @@ Currently supported are the following:
 
 - Use of the |label or |name identifiers will delay the publishing of the message by 2-3 hundred milliseconds due to an additional fetch required to SmartThings.
 
-- Appending a dynamic element with a fixed string is not currently supported (i.e. 'mydeviceid_|deviceid').
+- Appending a dynamic element with a fixed string (or vice versa) is not currently supported (i.e. 'mydeviceid_|deviceid').
 
 ### Status Messages
-The top level topic from the Topic Template will be used to send various status messages such as indications of MQTT (re)connection or SmartApp configuration changes.  For example, if the top level topic is 'smartthings', the following topic will be used for these status messages: 'smartthings/status'.  This topic can be subscribed-to for notification of the operational status of the nodeJS SmartApp.
+The top level topic from the Topic Template will be used to send various status messages such as indications of MQTT (re)connection or SmartApp configuration changes.  For example, if the top level topic is 'smartthings', then 'smartthings/status' will be used for these status messages.  This topic can be subscribed-to for notification of the operational status of the nodeJS SmartApp.
 
 ## Testing/Verification
-Start up an MQTT subscription utility and subscribe to the topic level topic you configured in Topic Template, e.g. 'smartthings/#':
+Start up an MQTT subscription utility and subscribe to the top-level topic you configured in Topic Template, e.g. 'smartthings/#':
 - mosquitto_sub
   ```
   mosquitto_sub -v -h localhost -t "smartthings/#"
