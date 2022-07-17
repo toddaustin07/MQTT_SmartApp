@@ -109,7 +109,7 @@ ngrok https 8083
 }
 ```
 The *CONFIRMATION_URL* should be copied and pasted into the address bar of another browser tab.  Press enter, and this will validate your URL, and the "VERIFY APP REGISTRATION" notice back on the Developer Workspace page should disappear.
-- You can now click the **DEPLOY TO TEST** button.
+- In your Developer Workspace project, you can now click the **DEPLOY TO TEST** button.
 - Optionally start *Live Logging*
   - This will log messages from the SmartThings side of things whenever there is activity with your SmartApp
 
