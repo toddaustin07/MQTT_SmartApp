@@ -116,10 +116,12 @@ The *CONFIRMATION_URL* should be copied and pasted into the address bar of anoth
 ### Download and configure the nodeJS SmartApp
 - Clone [this github repository](https://github.com/toddaustin07/MQTT_SmartApp.git) onto your server and copy these files to the project directory you created earlier (and installed the SDK into):
 ```
-smartapps.js
-mqttout.js
-mqttout_en.json   (goes in locales subdirectory)
-config.json
+~/projectdir
+   smartapps.js
+   mqttout.js
+   config.json
+   /locales      
+      mqttout_en.json
 ```
 - Edit config.json
   - Change port number if needed (defaults to 8083)
