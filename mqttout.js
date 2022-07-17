@@ -141,8 +141,6 @@ const app = new SmartApp()
     .updated(async (context, updateData) => {
         await context.api.subscriptions.unsubscribeAll();
         
-        console.log(context);
-        
         var sublist = [];
         
         if (context.config.hasOwnProperty('buttonList')) {
@@ -168,7 +166,23 @@ const app = new SmartApp()
     })
     
     
-    /* Event Handlers (generic handler not supported by SDK - duh) - Send MQTT message with updated value */
+    /* Handle SmartApp removal */
+    
+    .uninstalled((context, uninstallData) => {
+        
+        common.mylog('SmartApp uninstall event received');
+        if (mqttClient != null) {
+            if (mqttClient.connected) {
+                mqttClient.publish(status_topic, "SmartThings MQTT SmartApp was uninstalled", {retain:false, qos:0});
+            }
+        
+            mqttClient.end(true, {reasonString: "User uninstall"}, () => {
+                common.mylog("MQTT Broker connection was terminated");
+            })
+        }
+    })
+    
+    /* Subscribe Event Handlers (generic handler not supported by SDK!) - Send MQTT message with updated value */
     
     .subscribedEventHandler('buttonHandler', (context, deviceEvent) => { common_handler(context, deviceEvent) })
     .subscribedEventHandler('contactHandler', (context, deviceEvent) => { common_handler(context, deviceEvent) })
