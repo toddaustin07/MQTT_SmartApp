@@ -57,11 +57,11 @@ Although ngrok is a safe and secure method to access your server from the intern
 npm i @smartthings/smartapp --save
 ```
 #### Install MQTT Client for Node
-Do this on any machine on your LAN where you have Node and want to be able to monitor MQTT messages.
 ```
 cd ~
 npm i mqtt --global
 ```
+Also install the MQTT Client on any machine on your LAN where you have Node and want to be able to monitor MQTT messages.
 #### Install Mosquitto
 *Note that the MQTT broker can be installed on a separate server on your network.*
 ```
