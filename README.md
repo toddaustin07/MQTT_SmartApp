@@ -93,7 +93,7 @@ ngrok https 8083
 - Leave *SmartApp Instances* and *Custom Parameters* empty and click **SAVE**
 - Copy Client ID and Client Secret (although you won't use them) and click **GO TO PROJECT OVERVIEW**
 - Click **VERIFY APP REGISTRATION**
-  - This will cause SmartThings to send a CONFIRMATION request to your ngrok address.  This message contains a confirmation URL that you must type into a browser in order to verify your URL address.  You will see this message back on the ngrok browser console page if you have clicked the **Inspect** menu there.  You should see a POST message displayed on the right side of the page, with contents similar to the following:
+  - This will cause SmartThings to send a CONFIRMATION request to your ngrok address.  This message contains a confirmation URL that you must type into a browser in order to verify your URL address.  You will see this message back on the ngrok browser console page if you have clicked the **Inspect** menu there.  A POST message should be displayed on the right side of the page, with contents similar to the following:
 ```
 {
   "lifecycle": "CONFIRMATION",
