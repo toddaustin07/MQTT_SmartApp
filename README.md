@@ -83,7 +83,7 @@ ngrok https 8083
 - Click on the **Inspect** link at the top black menu bar: this page will show details of all received POST messages from SmartThings
 
 ### Create Developer Workplace project
-- Sign in to Samsung SmartThings [Developer Workspace](https://smartthings.developer.samsung.com/workspace)
+- From a browser, sign in to Samsung SmartThings [Developer Workspace](https://smartthings.developer.samsung.com/workspace)
 - Create New Project and choose 'Automation for the SmartThings App'
 - Name the project (e.g. MQTT Sender)
 - Choose *Register App*, then *WebHook Endpoint*
