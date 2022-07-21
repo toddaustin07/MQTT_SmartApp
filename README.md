@@ -384,3 +384,16 @@ If you want to run other SmartApps on your local server in addition to the MQTT 
 3. Your nodeJS module should export your instantiated SmartApp object as 'app'.  Reference the mqttout.js file for an example.
 
 4. Your nodeJS module will be loaded by smartapps.js during startup and all POST messages for your application will be routed to it.
+
+### Hosting public web pages
+Since you are running ngrok, you now have an IP address that can be reached from anywhere in the world.  So far, we've only used it to serve SmartThings SmartApps, but if you are so inclined, you can also serve up your very own webpages.  The IP address may not be as convenient as a handy .com address, but it is nonetheless useful and can be bookmarked for quick access.
+
+The smartapps.js module contains the following as the last line of the file:
+```
+server.use(express.static('public'));
+```
+This enables the serving of html pages for your ngrok-assigned IP address from a subdirectory called 'public'.  
+
+*index.html* is the default html page that will be loaded whenever your ngrok-assigned IP address is typed into a browser from anywhere on the internet.
+
+If this feature is not desired, then comment out that line in smartapps.js.
