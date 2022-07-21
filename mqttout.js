@@ -336,7 +336,7 @@ function mqttconfig_changed(config) {
     var new_userid = "";
     var new_password = "";
     if (config.hasOwnProperty('brokerUserid')) { new_userid = config.brokerUserid[0].stringConfig.value }
-    if (config.hasOwnProperty('brokerPassword')) { new_password = config.brokerPassword[0].stringConfig.value }
+    if (config.hasOwnProperty('brokerPW')) { new_password = config.brokerPW[0].stringConfig.value }
     
     if (new_userid !== mqttconfig.userid) { changeflag = true }
     if (new_password !== mqttconfig.password) { changeflag = true }
@@ -364,8 +364,8 @@ function update_mqttconfig(config) {
         mqttconfig.userid = config.brokerUserid[0].stringConfig.value
     }
     mqttconfig.password = ''
-    if  (config.hasOwnProperty('brokerPassword')) {
-        mqttconfig.password = config.brokerPassword[0].stringConfig.value
+    if  (config.hasOwnProperty('brokerPW')) {
+        mqttconfig.password = config.brokerPW[0].stringConfig.value
     }
     
     mqttconfig.topictemplate = config.topic[0].stringConfig.value
@@ -396,6 +396,11 @@ function mqttconnect(url, options) {
     mqttClient.stream.on("error", (error) => {          // stream is required to catch socket errors
         common.mylog("Can't connect to MQTT Broker: " + error);
         mqttClient.end(true)
+    })
+    
+    mqttClient.on("error", (error) => {
+        common.mylog("Can't connect to MQTT Broker: " + error);
+        mqttClient.end(true);
     });
 }        
 
