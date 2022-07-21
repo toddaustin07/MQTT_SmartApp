@@ -357,7 +357,7 @@ This package will prevent brute force authentication attempts
 ```
 
 #### Regularly Monitor Logs
-Keep an eye on all the logs below to spot any malicious access attemps.
+Keep an eye on all the logs below to spot any malicious access attempts.
 - /var/log/ufw.log (firewall)
 - /var/log/fail2ban.log (limits brute force authentication attempts)
 - /var/log/auth.log  (all authentication attempts)
