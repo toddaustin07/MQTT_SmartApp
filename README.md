@@ -90,11 +90,9 @@ ngrok https 8083
 - Choose *Register App*, then *WebHook Endpoint*
 - Enter the URL from ngrok (e.g. https://xxxx-xx-x-xxx-xxx.ngrok.io)
 - Provide an App Display Name and Description
-- Select Permissions required:  r:devices* and r:locations:\* (and also r:customcapability, if desired)
+- Select Permissions required:  r:devices* and r:locations:\* (and also r:customcapability, if desired); click NEXT button
 - Leave *SmartApp Instances* and *Custom Parameters* empty and click **SAVE**
-- Copy Client ID and Client Secret (although you won't use them) and click **GO TO PROJECT OVERVIEW**
-- Click **VERIFY APP REGISTRATION**
-  - This will cause SmartThings to send a CONFIRMATION request to your ngrok address.  This message contains a confirmation URL that you must enter into a browser address bar in order to verify your URL address.  You will see this message back on the ngrok browser console page if you have clicked the **Inspect** menu there.  A POST message should be displayed on the right side of the page, with contents similar to the following:
+- A message will now be sent to your ngrok address that contains a confirmation URL that you must paste into another browser tab address bar in order to verify your URL address.  You will see this message back on the ngrok browser console page if you have clicked the **Inspect** menu there.  A POST message should be displayed on the right side of the page, with contents similar to the following:
 ```
 {
   "lifecycle": "CONFIRMATION",
@@ -109,8 +107,11 @@ ngrok https 8083
   "settings": {}
 }
 ```
-The *CONFIRMATION_URL* should be copied and pasted into the address bar of another browser tab.  Press enter, and this will validate your URL, and the "VERIFY APP REGISTRATION" notice back on the Developer Workspace page should disappear.
-- In your Developer Workspace project, you can now click the **DEPLOY TO TEST** button.
+The *CONFIRMATION_URL* should be copied and pasted into the address bar of another browser tab, and press enter
+
+- Back in the Developer Workspace, copy Client ID and Client Secret from the popup displayed (although you won't use them) and click **GO TO PROJECT OVERVIEW**
+- *If you still have a button that says "VERIFY APP REGISTRATION", click it and check again for the confirmation message in your ngrok console and paste the confirmation URL into another tab and hit enter as described above (this is only if the confirmation message wasn't already sent as described above)*
+- Otherwise, in your Developer Workspace project, you can now click the **DEPLOY TO TEST** button.
 - Optionally start *Live Logging*
   - This will log messages from the SmartThings side of things whenever there is activity with your SmartApp
 
@@ -136,8 +137,7 @@ node smartapp.js
 
 ### Install the new SmartApp in your SmartThings mobile app
 - Go to the Automations page in the mobile app
-- Tap on the '+' in the upper right and select *Add routine*
-- Tap the *Discover* tab
+- Tap on the Discover icon in the upper right
 - Scroll down the list of SmartApps until you see one with the name you chose in the Developer Workspace
   - You may see duplicate entries (this is a bug in SmartThings).  Usually the one that actually works is the one *missing* the description.
   - If you don't find your SmartApp listed, make sure you have developer mode enabled (in SmartThings mobile app settings), and that you completed the Developer Workspace project steps outlined earlier.
